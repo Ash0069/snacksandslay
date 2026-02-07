@@ -42,18 +42,18 @@ export default function MenuPage() {
       : items.filter((item) => item.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 p-6">
+    <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-orange-50 p-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 pt-8">
           <div className="inline-block mb-4 overflow-hidden">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent animate-slide-down">
+            <h1 className="text-5xl md:text-6xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent animate-slide-down">
               Our Menu
             </h1>
           </div>
           <p className="text-gray-600 text-lg animate-fade-in-delayed">
             Crafted with love, served with care
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mt-4 rounded-full animate-scale-in"></div>
+          <div className="w-24 h-1 bg-linear-to-r from-amber-500 to-orange-500 mx-auto mt-4 rounded-full animate-scale-in"></div>
         </div>
 
         <MenuCategories
@@ -69,7 +69,7 @@ export default function MenuPage() {
               className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden opacity-0 animate-float-in border border-gray-100"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold rounded-full shadow-md transform group-hover:scale-110 transition-transform duration-300">
+              <div className="absolute top-4 right-4 px-3 py-1 bg-linear-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold rounded-full shadow-md transform group-hover:scale-110 transition-transform duration-300">
                 {item.category}
               </div>
 
@@ -86,13 +86,13 @@ export default function MenuPage() {
                 </div>
 
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                  <span className="text-3xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                     {item.price}
                   </span>
                 </div>
               </div>
 
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
           ))}
         </div>
