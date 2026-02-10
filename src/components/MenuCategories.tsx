@@ -20,7 +20,7 @@ export default function MenuCategories({
             onClick={() => onCategorySelect(category)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               activeCategory === category
-                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md"
+                ? "bg-linear-to-r from-amber-500 to-orange-500 text-white shadow-md"
                 : "bg-white text-gray-700 border border-gray-200 hover:border-amber-300 hover:text-amber-600"
             }`}
           >
