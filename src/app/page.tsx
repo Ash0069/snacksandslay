@@ -1,4 +1,13 @@
+import Maintenance from "@/components/Maintenance";
+
 export default function HomePage() {
+
+  const maintanence_mode = process.env.SET_MAINTENANCE_MODE === "true";
+
+  if (maintanence_mode) {
+    return <Maintenance />;
+  }
+
   return (
     <div
         className="

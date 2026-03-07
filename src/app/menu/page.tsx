@@ -1,36 +1,39 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import MenuCategories from "@/components/MenuCategories";
 import MenuHero from "@/components/menu/MenuHero";
 import MenuItemCard from "@/components/menu/MenuItemCard";
 import type { MenuItem } from "@/lib/menuData";
 
-export default function MenuPage() {
-  const [items, setItems] = useState<MenuItem[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState("Best Seller");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+type MenuResponse = {
+  items: MenuItem[];
+  categories: string[];
+};
 
-  useEffect(() => {
-    const loadMenu = async () => {
-      const response = await fetch("/api/menu", { cache: "no-store" });
+export default function MenuPage() {
+  const [activeCategory, setActiveCategory] = useState("Best Seller");
+
+  const { data, isLoading, isError } = useQuery<MenuResponse>({
+    queryKey: ["menu"],
+    queryFn: async () => {
+      const response = await fetch("/api/menu");
 
       if (!response.ok) {
-        setError("Unable to load menu right now.");
-        setLoading(false);
-        return;
+        throw new Error("Unable to load menu");
       }
 
-      const data = (await response.json()) as { items: MenuItem[]; categories: string[] };
-      setItems(data.items);
-      setCategories(["Best Seller", ...data.categories]);
-      setLoading(false);
-    };
+      return response.json();
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes caching
+  });
 
-    void loadMenu();
-  }, []);
+  const items = data?.items ?? [];
+  const categories = data
+    ? ["Best Seller", ...data.categories]
+    : [];
 
   const selectedCategory = categories.includes(activeCategory)
     ? activeCategory
@@ -41,12 +44,20 @@ export default function MenuPage() {
       ? items.filter((item) => item.bestSeller)
       : items.filter((item) => item.category === selectedCategory);
 
-  if (loading) {
-    return <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-orange-50 p-6">Loading menu...</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-orange-50 p-6">
+        Loading menu...
+      </div>
+    );
   }
 
-  if (error) {
-    return <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-orange-50 p-6">{error}</div>;
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-orange-50 p-6">
+        Unable to load menu right now.
+      </div>
+    );
   }
 
   return (
@@ -71,12 +82,17 @@ export default function MenuPage() {
             Coming soon in {selectedCategory}.
           </p>
         )}
+
         {filteredItems.length === 0 && selectedCategory === "Best Seller" && (
-          <p className="text-center text-gray-500 mt-8">No best sellers available right now.</p>
+          <p className="text-center text-gray-500 mt-8">
+            No best sellers available right now.
+          </p>
         )}
 
         <div className="text-center mt-16 mb-8 animate-fade-in-late">
-          <p className="text-gray-500 text-sm">All prices inclusive of taxes</p>
+          <p className="text-gray-500 text-sm">
+            All prices inclusive of taxes
+          </p>
         </div>
       </div>
     </div>
